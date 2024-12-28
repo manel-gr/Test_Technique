@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export function DeleteDialog({ isOpen, onClose, onConfirm }) {
   if (!isOpen) return null;
@@ -6,21 +6,22 @@ export function DeleteDialog({ isOpen, onClose, onConfirm }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 w-[400px] relative">
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-500 hover:text-gray-700"
         >
           ✕
         </button>
-        
-        {/* Dialog content */}
+
         <div className="mb-6 pt-2">
-          <h2 className="text-xl font-bold text-center text-black mb-2">Delete Course</h2>
-          <p className="text-gray-600 font-semibold  text-center">Are you sure to delete this course?</p>
+          <h2 className="text-xl font-bold text-center text-black mb-2">
+            Delete Course
+          </h2>
+          <p className="text-gray-600 font-semibold  text-center">
+            Are you sure to delete this course?
+          </p>
         </div>
-        
-        {/* Dialog actions */}
+
         <div className="flex  justify-center gap-4">
           <button
             onClick={onClose}
@@ -39,4 +40,3 @@ export function DeleteDialog({ isOpen, onClose, onConfirm }) {
     </div>
   );
 }
-

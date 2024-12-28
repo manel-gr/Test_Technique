@@ -20,7 +20,6 @@ function App() {
                 </div>
 
                 <div className="navbar-end">
-                  {/* Bouton pour accéder à la page Admin */}
                   <Link to="/admin">
                     <button className="btn bg-custom-pink border-none rounded-full px-10 hover:bg-pink-700 text-white">
                       Admin
@@ -29,7 +28,6 @@ function App() {
                 </div>
               </div>
 
-              {/* Hero Section */}
               <div
                 className="hero min-h-screen"
                 style={{
@@ -56,7 +54,6 @@ function App() {
             </div>
           }
         />
-        {/* Route pour la page Admin */}
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>

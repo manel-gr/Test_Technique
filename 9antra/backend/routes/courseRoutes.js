@@ -5,19 +5,16 @@ const path = require("path");
 const fs = require("fs");
 const Course = require("../models/Course");
 
-// Ensure uploads directory exists
 const uploadsDir = "uploads";
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Multer configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadsDir);
   },
   filename: function (req, file, cb) {
-    // Save with original file extension
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     cb(null, uniqueSuffix + path.extname(file.originalname));
   },
@@ -25,7 +22,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// Create a new course
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     console.log("File received:", req.file);
@@ -37,7 +33,7 @@ router.post("/", upload.single("image"), async (req, res) => {
     const course = new Course({
       title: req.body.title,
       price: req.body.price,
-      image: req.file.filename, // Store only the filename
+      image: req.file.filename,
     });
 
     const savedCourse = await course.save();
@@ -49,7 +45,6 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-// Get all courses
 router.get("/", async (req, res) => {
   try {
     const courses = await Course.find();
@@ -59,7 +54,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Update course
 router.put("/:id", upload.single("image"), async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -67,7 +61,6 @@ router.put("/:id", upload.single("image"), async (req, res) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // If a new image is uploaded, delete the old one
     if (req.file) {
       if (course.image) {
         const oldImagePath = path.join(uploadsDir, course.image);
@@ -88,7 +81,6 @@ router.put("/:id", upload.single("image"), async (req, res) => {
   }
 });
 
-// Delete course
 router.delete("/:id", async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
@@ -96,7 +88,6 @@ router.delete("/:id", async (req, res) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // Delete the image file if it exists
     if (course.image) {
       const imagePath = path.join(uploadsDir, course.image);
       if (fs.existsSync(imagePath)) {

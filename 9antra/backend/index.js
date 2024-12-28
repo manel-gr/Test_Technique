@@ -7,15 +7,11 @@ const courseRoutes = require("./routes/courseRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Serve static files from uploads directory
-// IMPORTANT: This line needs to be before your routes
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// Connect to MongoDB
 mongoose
   .connect("mongodb://localhost/course_platform", {
     useNewUrlParser: true,
@@ -27,10 +23,8 @@ mongoose
     process.exit(1);
   });
 
-// Routes
 app.use("/api/courses", courseRoutes);
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error("Error:", err);
   res.status(500).json({ message: err.message });
